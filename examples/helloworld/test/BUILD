@@ -22,5 +22,6 @@ cc_binary(
         "@trpc_cpp//trpc/client:trpc_client",
         "@trpc_cpp//trpc/common:runtime_manager",
         "@trpc_cpp//trpc/log:trpc_log",
+        "@trpc_cpp//trpc/naming/common/util/loadbalance:trpc_loadbalance"
     ],
 )

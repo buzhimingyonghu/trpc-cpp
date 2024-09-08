@@ -18,7 +18,7 @@ server:
       protocol: trpc                  # Application layer protocol, eg: trpc/http/...
       network: tcp                    # Network type, Support two types: tcp/udp
       ip: 127.0.0.1                     # Service bind ip
-      port: 10000                     # Service bind port
+      port: 30000                     # Service bind port
 
 plugins:
   log:

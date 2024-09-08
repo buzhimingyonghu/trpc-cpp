@@ -135,7 +135,7 @@ int SelectorDirect::SetEndpoints(const RouterInfo* info) {
     TRPC_LOG_ERROR("Invalid parameter: router info is empty");
     return -1;
   }
-
+  std::cout << "selector_direct default_load_balance_ : " << default_load_balance_->Name() << std::endl;
   // Generate a unique id for each node, then put the node in the cache
   EndpointsInfo endpoints_info;
   endpoints_info.endpoints = info->info;

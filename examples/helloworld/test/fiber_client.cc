@@ -11,17 +11,18 @@
 //
 //
 
+#include <chrono>
 #include <iostream>
 #include <string>
-
 #include "gflags/gflags.h"
 
+#include "examples/helloworld/helloworld.trpc.pb.h"
 #include "trpc/client/make_client_context.h"
 #include "trpc/client/trpc_client.h"
 #include "trpc/common/runtime_manager.h"
+#include "trpc/common/trpc_plugin.h"
 #include "trpc/log/trpc_log.h"
-
-#include "examples/helloworld/helloworld.trpc.pb.h"
+#include "trpc/naming/common/util/loadbalance/trpc_loadbalance.h"
 
 DEFINE_string(client_config, "trpc_cpp.yaml", "framework client_config file, --client_config=trpc_cpp.yaml");
 DEFINE_string(service_name, "trpc.test.helloworld.Greeter", "callee service name");
@@ -41,9 +42,24 @@ int DoRpcCall(const std::shared_ptr<::trpc::test::helloworld::GreeterServiceProx
 }
 
 int Run() {
+  ::trpc::loadbalance::Init();
   auto proxy = ::trpc::GetTrpcClient()->GetProxy<::trpc::test::helloworld::GreeterServiceProxy>(FLAGS_service_name);
+  const int thread_count = 10;
+  std::vector<std::thread> threads;
 
-  return DoRpcCall(proxy);
+  for (int i = 0; i < thread_count; ++i) {
+    threads.emplace_back([proxy]() {
+      for (int j = 0; j < 5; ++j) {
+        DoRpcCall(proxy);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+      }
+    });
+  }
+  for (auto& t : threads) {
+    t.join();
+  }
+
+  return 0;
 }
 
 void ParseClientConfig(int argc, char* argv[]) {
@@ -67,7 +83,6 @@ void ParseClientConfig(int argc, char* argv[]) {
 
 int main(int argc, char* argv[]) {
   ParseClientConfig(argc, argv);
-
   // If the business code is running in trpc pure client mode,
   // the business code needs to be running in the `RunInTrpcRuntime` function
   return ::trpc::RunInTrpcRuntime([]() { return Run(); });

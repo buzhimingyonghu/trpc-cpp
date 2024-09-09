@@ -11,11 +11,11 @@ global:
 client:
   service:
     - name: trpc.test.helloworld.Greeter
-      target: 127.0.0.1:10000:1,127.0.0.1:20000:2,127.0.0.1:30000:3      # Fullfill ip:port list here when use `direct` selector.(such as 23.9.0.1:90,34.5.6.7:90)
+      target: 127.0.0.1:10000,127.0.0.1:20000,127.0.0.1:30000      # Fullfill ip:port list here when use `direct` selector.(such as 23.9.0.1:90,34.5.6.7:90)
       protocol: trpc                # Application layer protocol, eg: trpc/http/...
       network: tcp                  # Network type, Support two types: tcp/udp
       selector_name: direct         # Selector plugin, default `direct`, it is used when you want to access via ip:port
-      load_balance_name: trpc_smooth_weighted_polling_load_balance
+      load_balance_name: trpc_swround_robin_loadbalance
 
 plugins:
   log:
@@ -24,3 +24,16 @@ plugins:
         sinks:
           local_file:
             filename: trpc_fiber_client.log
+  loadbalance:         
+    trpc_swround_robin_loadbalance:                            
+      service:
+        - name: trpc.test.helloworld.Greeter
+          target:
+            - address: 127.0.0.1:10000
+              weight: 1
+            - address: 127.0.0.1:20000
+              weight: 2      
+            - address: 127.0.0.1:30000
+              weight: 3                                          
+  
+

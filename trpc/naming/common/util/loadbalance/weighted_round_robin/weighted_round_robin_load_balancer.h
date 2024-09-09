@@ -23,15 +23,14 @@
 #include "trpc/naming/load_balance.h"
 
 namespace trpc {
+constexpr char kSWRoundRobinLoadBalance[] = "trpc_swround_robin_loadbalance";
 
-constexpr char kSmoothWeightedPollingLoadBalance[] = "trpc_smooth_weighted_polling_load_balance";
-
-class SmoothWeightedPollingLoadBalance : public LoadBalance {
+class SWRoundRobinLoadBalance : public LoadBalance {
  public:
-  SmoothWeightedPollingLoadBalance() = default;
-  ~SmoothWeightedPollingLoadBalance() override = default;
+  SWRoundRobinLoadBalance() = default;
+  ~SWRoundRobinLoadBalance() override = default;
 
-  std::string Name() const override { return kSmoothWeightedPollingLoadBalance; }
+  std::string Name() const override { return kSWRoundRobinLoadBalance; }
 
   int Update(const LoadBalanceInfo* info) override;
   int Next(LoadBalanceResult& result) override;
@@ -50,6 +49,6 @@ class SmoothWeightedPollingLoadBalance : public LoadBalance {
   mutable std::shared_mutex mutex_;
 };
 
-using SmoothWeightedPollingLoadBalancePtr = std::shared_ptr<SmoothWeightedPollingLoadBalance>;
+using SWRoundRobinLoadBalancePtr = std::shared_ptr<SWRoundRobinLoadBalance>;
 
 }  // namespace trpc

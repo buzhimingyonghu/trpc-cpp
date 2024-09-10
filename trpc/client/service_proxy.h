@@ -183,8 +183,6 @@ class ServiceProxy {
   // 3. domain:port(only applicable when the selector is 'domain'), as: www.qq.com:8080
   void SetEndpointInfo(const std::string& endpoint_info);
 
-  void SetLoadBalanceConfig(RouterInfo& info);
-
  protected:
   ClientCodecPtr codec_;
 

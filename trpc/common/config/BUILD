@@ -297,7 +297,6 @@ cc_library(
         "@com_github_jbeder_yaml_cpp//:yaml-cpp",
     ],
 )
-
 cc_library(
     name = "domain_naming_conf_parser",
     hdrs = ["domain_naming_conf_parser.h"],

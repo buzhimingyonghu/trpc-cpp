@@ -42,7 +42,6 @@ int DoRpcCall(const std::shared_ptr<::trpc::test::helloworld::GreeterServiceProx
 }
 
 int Run() {
-  ::trpc::loadbalance::Init();
   auto proxy = ::trpc::GetTrpcClient()->GetProxy<::trpc::test::helloworld::GreeterServiceProxy>(FLAGS_service_name);
   const int thread_count = 10;
   std::vector<std::thread> threads;
@@ -83,6 +82,7 @@ void ParseClientConfig(int argc, char* argv[]) {
 
 int main(int argc, char* argv[]) {
   ParseClientConfig(argc, argv);
+  ::trpc::loadbalance::Init();
   // If the business code is running in trpc pure client mode,
   // the business code needs to be running in the `RunInTrpcRuntime` function
   return ::trpc::RunInTrpcRuntime([]() { return Run(); });

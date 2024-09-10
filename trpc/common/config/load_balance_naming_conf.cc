@@ -17,25 +17,16 @@
 
 namespace trpc::naming {
 void SWRoundrobinLoadBalanceConfig::Display() const {
-  std::cout << "-----SWRoundrobinLoadBalanceConfig begin-------" << std::endl;
-  for (const auto& [name, service] : services) {
-    std::cout << "Service name: " << name << std::endl;
-    for (const auto& [address, weight] : service) {
-      std::cout << "Address: " << address << " Weight: " << weight << std::endl;
+  TRPC_FMT_DEBUG("-----SWRoundrobinLoadBalanceConfig begin-------");
+
+  for (const auto& [service_name, weights] : services_weight) {
+    TRPC_FMT_DEBUG("Service name: {}", service_name);
+    for (const auto& weight : weights) {
+      TRPC_FMT_DEBUG(" Weight: {}", weight);
     }
+    TRPC_FMT_DEBUG("-----------------------------------------------");
   }
-  // TRPC_FMT_DEBUG("-----SWRoundrobinLoadBalanceConfig begin-------");
 
-  // for (const auto& service : services) {
-  //   TRPC_FMT_DEBUG("Service name: {}", service.service_name);
-
-  //   for (const auto& [address, weight] : service.address_weight) {
-  //     TRPC_FMT_DEBUG("  Address: {}, Weight: {}", address, weight);
-  //   }
-
-  //   TRPC_FMT_DEBUG("-----------------------------------------------");
-  // }
-
-  // TRPC_FMT_DEBUG("-----SWRoundrobinLoadBalanceConfig end---------");
+  TRPC_FMT_DEBUG("-----SWRoundrobinLoadBalanceConfig end---------");
 }
 }  // namespace trpc::naming

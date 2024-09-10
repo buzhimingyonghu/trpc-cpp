@@ -25,15 +25,8 @@ plugins:
           local_file:
             filename: trpc_fiber_client.log
   loadbalance:         
-    trpc_swround_robin_loadbalance:                            
-      service:
-        - name: trpc.test.helloworld.Greeter
-          target:
-            - address: 127.0.0.1:10000
-              weight: 1
-            - address: 127.0.0.1:20000
-              weight: 2      
-            - address: 127.0.0.1:30000
-              weight: 3                                          
+    trpc_swround_robin_loadbalance:                                                   
+      - service: trpc.test.helloworld.Greeter
+        weights: [1,2,3]                                           
   
 

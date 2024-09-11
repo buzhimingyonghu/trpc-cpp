@@ -18,7 +18,6 @@
 #include <utility>
 
 #include "trpc/naming/common/util/loadbalance/polling/polling_load_balance.h"
-#include "trpc/naming/common/util/loadbalance/weighted_round_robin/weighted_round_robin_load_balancer.h"
 #include "trpc/naming/load_balance_factory.h"
 #include "trpc/naming/selector_factory.h"
 #include "trpc/util/log/logging.h"
@@ -136,15 +135,13 @@ int SelectorDirect::SetEndpoints(const RouterInfo* info) {
     TRPC_LOG_ERROR("Invalid parameter: router info is empty");
     return -1;
   }
-  std::cout << "selector_direct default_load_balance_ : " << default_load_balance_->Name() << std::endl;
 
   // Generate a unique id for each node, then put the node in the cache
   EndpointsInfo endpoints_info;
   endpoints_info.endpoints = info->info;
 
   std::unique_lock<std::shared_mutex> uniq_lock(mutex_);
-
-  SetEndpointsWeight(info->name, endpoints_info.endpoints);
+  std::cout<<"load_balance_name: "<<default_load_balance_->Name()<<std::endl;
   auto iter = targets_map_.find(info->name);
   if (iter != targets_map_.end()) {
     // If the service name is in the cache, use the original id generator
@@ -169,11 +166,5 @@ int SelectorDirect::SetEndpoints(const RouterInfo* info) {
   default_load_balance_->Update(&load_balance_info);
   return 0;
 }
-int SelectorDirect::SetEndpointsWeight(const std::string service_name, std::vector<TrpcEndpointInfo>& endpoints) {
-  if (default_load_balance_->Name() != "trpc_swround_robin_loadbalance") {
-    return -1;
-  }
-  SWRoundRobinLoadBalancePtr loadbalance = dynamic_pointer_cast<SWRoundRobinLoadBalance>(default_load_balance_);
-  return loadbalance->SetEndpointInfoWeight(service_name, endpoints);
-}
+
 }  // namespace trpc

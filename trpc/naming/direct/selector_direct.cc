@@ -141,7 +141,6 @@ int SelectorDirect::SetEndpoints(const RouterInfo* info) {
   endpoints_info.endpoints = info->info;
 
   std::unique_lock<std::shared_mutex> uniq_lock(mutex_);
-  std::cout<<"load_balance_name: "<<default_load_balance_->Name()<<std::endl;
   auto iter = targets_map_.find(info->name);
   if (iter != targets_map_.end()) {
     // If the service name is in the cache, use the original id generator

@@ -15,6 +15,7 @@
 #include "trpc/common/config/trpc_config.h"
 
 namespace trpc {
+
 int SWRoundRobinLoadBalance::Update(const LoadBalanceInfo* info) {
   if (info == nullptr || info->info == nullptr || info->endpoints == nullptr) {
     TRPC_LOG_ERROR("Endpoint info of name is empty");
@@ -77,7 +78,7 @@ int SWRoundRobinLoadBalance::Next(LoadBalanceResult& result) {
   if (selected_index != -1) {
     info.current_weights[selected_index] -= info.total_weight;
     result.result = info.endpoints[selected_index];
-     std::cout << "host: " << info.endpoints[selected_index].host << " port: " << info.endpoints[selected_index].port
+         std::cout << "host: " << info.endpoints[selected_index].host << " port: " << info.endpoints[selected_index].port
               << " weight: " << info.endpoints[selected_index].weight << std::endl;
     return 0;
   }

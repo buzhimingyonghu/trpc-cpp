@@ -15,7 +15,7 @@ client:
       protocol: trpc                # Application layer protocol, eg: trpc/http/...
       network: tcp                  # Network type, Support two types: tcp/udp
       selector_name: direct         # Selector plugin, default `direct`, it is used when you want to access via ip:port
-      load_balance_name: trpc_swround_robin_loadbalance
+      load_balance_name: swround_robin
 
 plugins:
   log:

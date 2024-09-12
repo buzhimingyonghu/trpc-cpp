@@ -21,7 +21,8 @@
 #include "trpc/naming/load_balance.h"
 
 namespace trpc {
-constexpr char kSWRoundRobinLoadBalance[] = "trpc_swround_robin_loadbalance";
+
+constexpr char kSWRoundRobinLoadBalance[] = "swround_robin";
 
 class SWRoundRobinLoadBalance : public LoadBalance {
  public:

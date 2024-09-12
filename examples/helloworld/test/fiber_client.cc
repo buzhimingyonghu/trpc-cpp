@@ -22,7 +22,6 @@
 #include "trpc/common/runtime_manager.h"
 #include "trpc/common/trpc_plugin.h"
 #include "trpc/log/trpc_log.h"
-#include "trpc/naming/common/util/loadbalance/trpc_loadbalance.h"
 
 DEFINE_string(client_config, "trpc_cpp.yaml", "framework client_config file, --client_config=trpc_cpp.yaml");
 DEFINE_string(service_name, "trpc.test.helloworld.Greeter", "callee service name");
@@ -82,7 +81,6 @@ void ParseClientConfig(int argc, char* argv[]) {
 
 int main(int argc, char* argv[]) {
   ParseClientConfig(argc, argv);
-  ::trpc::loadbalance::Init();
   // If the business code is running in trpc pure client mode,
   // the business code needs to be running in the `RunInTrpcRuntime` function
   return ::trpc::RunInTrpcRuntime([]() { return Run(); });

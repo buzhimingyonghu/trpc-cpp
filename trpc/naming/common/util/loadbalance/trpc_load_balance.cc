@@ -2,7 +2,7 @@
 //
 // Tencent is pleased to support the open source community by making tRPC available.
 //
-// Copyright (C) 2023 THL A29 Limited, a Tencent company.
+// Copyright (C) 2024 THL A29 Limited, a Tencent company.
 // All rights reserved.
 //
 // If you have downloaded a copy of the tRPC source code from Tencent,
@@ -11,9 +11,8 @@
 //
 //
 #include "trpc/naming/common/util/loadbalance/weighted_round_robin/weighted_round_robin_load_balancer.h"
-#include "trpc/naming/direct/selector_direct.h"
 #include "trpc/naming/load_balance_factory.h"
-#include "trpc/naming/selector_factory.h"
+
 namespace trpc::loadbalance {
 
 bool Init() {
@@ -30,7 +29,6 @@ void Stop() {}
 
 void Destroy() {
   LoadBalanceFactory::GetInstance()->Clear();
-  SelectorFactory::GetInstance()->Clear();
 }
 
 }  // namespace trpc::loadbalance
